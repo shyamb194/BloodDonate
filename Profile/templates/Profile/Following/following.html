@@ -1,0 +1,29 @@
+<div class="card mt-3">
+	<div class="card-header">
+		<strong>Following</strong>
+	</div>
+</div>
+<div class="col-md-12">
+	<div class="row">	
+	{% for p in user.following.all %}
+		<div class="col-md-4 mt-3">
+			<div class="card text-center">
+			  <img class="card-img-top" src="{{ p.profiledetails.profile_pic }}" height="250rem">
+			  <div class="card-body">
+			    <h5 class="card-title">{{p.first_name}} {{p.last_name}}</h5>
+			    <p class="card-text">
+			    {% if p.profiledetails.bio == None %} 
+			    {% else %}
+					{{ p.profiledetails.bio }}
+			    {% endif %}
+				</p>
+			  </div>
+			  <ul class="list-group list-group-flush">
+			    <li class="list-group-item">From <strong>{{ p.profiledetails.permDistrict }}, {{ p.profiledetails.permCity }}</strong></li>
+			  </ul>
+			  <a href="{% url 'profile_app:profileTimeline' p.username %}" class="btn btn-primary">View Profile</a>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+</div>

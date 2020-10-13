@@ -1,0 +1,47 @@
+<div class="card mt-3">
+	<div class="card-header">
+		<strong>About</strong>
+	</div>
+	<ul class="list-group list-group-flush">
+	  <li class="list-group-item">
+	  	<strong>Username</strong> <br>
+	  	<p>{{ user.user }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Last Donated</strong> <br>
+	  	<p>Need to work</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Lives In</strong> <br>
+	  	<p>{{ user.tempCity }}, {{ user.tempDistrict }}, {{ user.tempCountry }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>From</strong> <br>
+	  	<p>{{ user.permCity }}, {{ user.permDistrict }}, {{ user.permCountry }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Gender</strong> <br>
+	  	<p>{{ user.gender }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Date of Birth</strong> <br>
+	  	<p>{{ user.dob }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Blood Group</strong> <br>
+	  	<p>{{ user.bloodGroup }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Mobile</strong> <br>
+	  	<p>{{ user.contact }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Email</strong> <br>
+	  	<p>{{ user.user.email }}</p>
+	  </li>
+	  <li class="list-group-item">
+	  	<strong>Member Since</strong> <br>
+	  	<p>{{ user.user.date_joined }}</p>
+	  </li>
+	</ul>
+</div>

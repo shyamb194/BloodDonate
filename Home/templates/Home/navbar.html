@@ -1,0 +1,59 @@
+{% if request.user.is_authenticated %}
+<nav style="background-color: green;">
+    <div class="menu-icon">
+        <span class="fa fa-bars"></span>
+    </div>
+    <div class="nav-items">
+        <li><a href="{% url 'home_app:home' %}">Home</a></li>
+        <li><a href="{% url 'home_app:whoCandonateBlood' %}">Who can donate blood</a></li>
+        <li><a href="{% url 'home_app:newsFeed' %}">News Feed</a></li>
+        <li><a href="{% url 'home_app:newsAndEvents' %}">News & Events</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>        
+    </div>
+    <div class="login-icon d-none">
+        <span class="fa fa-sign-in"></span>
+    </div>
+    <div class="cancel-icon">
+        <span class="fa fa-times"></span>
+    </div>
+</nav>
+<nav>
+    <div class="logo">BloodDonate</div>
+    <div class="nav-items">
+        <li><a href="{% url 'profile_app:profileTimeline' request.user %}">My Profile</a></li>
+        <li><a href="{% url 'profile_app:notifications' request.user %}">Notifications</a></li>
+        <li><a href="{% url 'profile_app:settings' request.user %}">Settings</a></li>
+        <li><a href="#">Search</a></li>
+        <li><a href="{% url 'UserAuthentication_app:logout' %}">Log Out</a></li>   
+    </div>
+</nav>
+{% else %}
+<nav style="background-color: green;">
+    <div class="menu-icon">
+        <span class="fa fa-bars"></span>
+    </div>
+    <div class="nav-items">
+        <li><a href="{% url 'home_app:home' %}">Home</a></li>
+        <li><a href="{% url 'home_app:whoCandonateBlood' %}">Who can donate blood</a></li>
+        <li><a href="{% url 'home_app:newsFeed' %}">News Feed</a></li>
+        <li><a href="{% url 'home_app:newsAndEvents' %}">News & Events</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>        
+    </div>
+    <div class="login-icon d-none">
+        <span class="fa fa-sign-in"></span>
+    </div>
+    <div class="cancel-icon">
+        <span class="fa fa-times"></span>
+    </div>
+</nav>
+<nav>
+    <div class="logo">BloodDonate</div>
+    <form action="#">
+       <a href="{% url 'UserAuthentication_app:login' %}" type="submit" class="btn btn-danger"> Login</a>
+        <a href="{% url 'UserAuthentication_app:register' %}" type="submit" class="btn btn-danger">Register </a>
+    </form>
+</nav>
+{% endif %}
+

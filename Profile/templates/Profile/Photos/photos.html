@@ -1,0 +1,19 @@
+<div class="card mt-3">
+	<div class="card-header">
+		<strong>Photos</strong>
+	</div>
+	<div>	
+		<h5 class="ml-2">Profile Picture</h5>	
+		{% for post in post %}
+			{% if post.post_type == 'profile_picture' %}			
+			<img src="{{ post.image }}"  width=100%>
+			{% endif %}
+		{% endfor %}
+		<h5 class="ml-2">Mobile Uploads</h5>	
+		{% for post in post %}
+			{% if post.post_type == 'post' %}			
+			<img src="{{ post.image }}" width = 100%>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>

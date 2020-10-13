@@ -1,0 +1,27 @@
+
+.carousel{
+    z-index: -2;
+}
+.carousel-inner{
+    
+}
+.carousel-caption{
+    position: absolute;
+    top: 10rem;
+    bottom: 10rem;
+}
+
+.carousel-inner img{
+    height: 42.5rem;
+}
+.request-button{
+    position: fixed;
+    z-index: 1;
+    right: 0;
+    top: 15rem; 
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+    padding: 10px;
+}
+
+
