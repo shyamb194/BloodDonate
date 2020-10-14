@@ -27,7 +27,8 @@ def profileTimeline(request, username):
 	user1 = User.objects.get(username = username)	
 	my_profile = ProfileDetails.objects.get(user = request.user)
 	profile = ProfileDetails.objects.get(user = user1.id)
-
+	followed_by = ProfileDetails.objects.filter(following = user1.id)
+	
 	users = [user for user in my_profile.following.all()]
 	posts = []
 	qs = None
@@ -57,6 +58,7 @@ def profileTimeline(request, username):
 		'createUserForm': createUserForm,
 		'profileDetailsForm': profileDetailsForm,
 		'follow': follow,
+		'followed_by': followed_by,
 	}
 	return render(request, 'Profile/profile.html', context)
 

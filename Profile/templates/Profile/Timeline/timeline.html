@@ -10,6 +10,7 @@
             <li class="list-group-item">Lives in <strong>{{ user.tempDistrict }}, {{ user.tempCity }}</strong></li>
             <li class="list-group-item">Blood Group <strong>{{ user.bloodGroup }}</strong></li>
             <li class="list-group-item">Following <strong> {{ user.following_count }} People </strong></li>
+            <li class="list-group-item">Followed By <strong> {{ followed_by.count }} People </strong></li>
             <li class="list-group-item">Member Since <strong>{{ user.user.date_joined }}</strong></li>
             <li class="list-group-item m-auto"><a href="{% url 'profile_app:about' user.user.username %}">See More About {{ user.user.first_name }}</a></li>
           </ul>
