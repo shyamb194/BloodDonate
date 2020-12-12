@@ -1,0 +1,109 @@
+{% extends 'Home/main.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="card mx-5 px-5 my-3">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+        <img src="{{ post.author.profile_pic }}" height="50" width="50" alt="Profile Picture" style="border-radius: 50%;">
+        <div class="ml-2">
+          {% if post.post_type == 'profile_picture' %}
+            <p><strong class="card-title mb-0">{{ post.author.user.first_name }} {{ post.author.user.last_name }}</strong> has updated profile Picture</p>
+          {% elif post.post_type == 'post' %}
+            <p><strong class="card-title mb-0">{{ post.author.user.first_name }} {{ post.author.user.last_name }}</strong> has created a post </p>
+          {% endif %}
+            <p class="card-text mt-0">
+              <small class="text-muted">{{ post.created }}</small>
+              {% if post.post_audience == 'public' %}
+                <i class="fa fa-globe-asia">public</i>
+              {% elif post.post_audience == 'followers' %}
+                  <i class="fa fa-globe-asia">follower</i>
+              {% elif post.post_audience == 'private' %}
+                  <i class="fa fa-globe-asia">private</i>
+              {% endif %}
+            </p>                     
+        </div>
+        <div class="menu-icon ml-auto mr-3  dropleft">
+          {% if post.author.user.id == request.user.id %}
+            <span class="fa fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{% url 'profile_app:editPost' post.id %}">Edit Post</a>
+              <a class="dropdown-item" href="{% url 'profile_app:deletePost' post.id %}">Delete Post</a>
+              <a class="dropdown-item" href="#">Make Private</a>
+              <a class="dropdown-item" href="#">Make Public</a>
+            </div>  
+          {% else %} 
+          <span class="fa fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Report Post</a>
+          </div> 
+          {% endif %}                      
+        </div>
+      </div>
+      <p class="card-text mt-2">{{ post.caption }}</p>
+    </div>
+    {% for post_image in post.post_image %}
+      <img class="card-img-bottom" src="{{ post_image.image }}">                  
+    {% endfor %}       
+    <hr>
+    <p>{{post.like.all.count}} people loved your post</p>
+    <div class="d-flex m-0 justify-content-around">
+      {% if request.user in post.like.all %}
+        <a href="{% url 'profile_app:likeUnlike' post.id %}"><button type="button" class="btn btn-link">Unlike</button></a> |
+      {% else %}
+        <a href="{% url 'profile_app:likeUnlike' post.id %}"><button type="button" class="btn btn-link">Like</button></a> |
+      {% endif %}
+      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{post.id}}">Comment <span class="badge badge-light">{{post.comments.all.count}}</span></button>  |
+      <button type="button" class="btn btn-link">Share</button>
+    </div>
+    <hr>
+    {% if not post.comments.all %} 
+      <p class="text-center m-0"> No comments yet </p>
+    {% else %}
+      <ul class="list-group list-group-flush">
+      {% for comment in post.comments.all %}            
+        <li class="list-group-item">
+          <div class="row mt-2">
+            <div class="col-md-1">
+              <img src="{{ comment.user.profiledetails.profile_pic }}" height="50" width="50" alt="Profile Picture" style="border-radius: 50%;">
+            </div>
+            <div class="col-md-10">
+              <p><strong> {{comment.user.first_name}} </strong> <br> {{ comment.body }}</p>
+              <a href="" class="">Reply</a>
+            </div>                   
+          </div> 
+          {% for commentReply in comment.replyComments.all %}
+            <div class="row ml-5">
+              <div class="col-md-1">
+                <img src="{{ commentReply.user.profiledetails.profile_pic }}" height="50" width="50" alt="Profile Picture" style="border-radius: 50%;">
+              </div>
+              <div class="col-md-10">
+                <p><strong> {{commentReply.user.first_name}} </strong> <br> {{ commentReply.body }}</p>
+                <a href="" class="">Reply</a>
+              </div> 
+            </div>
+          {% endfor %}
+          <form method="POST" action="{% url 'profile_app:replyComment' post.id request.user comment.id %}">
+            {% csrf_token %}
+            <div class="d-flex ml-5">
+              <img src="{{ my_profile.profile_pic }}" height="50" width="50" alt="Profile Picture" style="border-radius: 50%;">
+              <textarea cols="50" placeholder=" Write Reply here..." name="replyComment" style="border: solid; border-radius: 15px; margin-left: 10px; margin-right: 10px;" width: 100%;"></textarea>
+              <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+            </div>
+          </form>
+        </li>                           
+      {% endfor %}
+      </ul>
+    {% endif %}
+    <hr>             
+    <form method="POST" action="{% url 'profile_app:comment' post.id request.user %}">
+      {% csrf_token %}
+      <div class="d-flex">
+        <img src="{{ my_profile.profile_pic }}" height="50" width="50" alt="Profile Picture" style="border-radius: 50%;">
+        <textarea cols="50" placeholder=" Write Comment here..." name="comment" style="border: solid; border-radius: 15px; margin-left: 10px; margin-right: 10px;" width: 100%;"></textarea>
+        <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

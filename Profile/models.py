@@ -13,6 +13,7 @@ class Post(models.Model):
 	caption = models.CharField(max_length = 200, blank = True, null = True)
 	post_type = models.CharField(max_length = 20, blank = False, null = False)
 	post_audience = models.CharField(max_length = 20, blank = False, null = False)
+	like = models.ManyToManyField(User, related_name = 'like', blank = True)
 	updated = models.DateTimeField(auto_now = True)
 	created = models.DateTimeField(auto_now_add = True)
 
@@ -30,3 +31,39 @@ class PostImage(models.Model):
 
 	class Meta:
 		db_table = 'postImage'
+
+class Comments(models.Model):
+	post = models.ForeignKey(Post, null = True, related_name = "comments", on_delete=models.CASCADE)
+	user = models.ForeignKey(User, null = True, on_delete=models.CASCADE)
+	body = models.TextField()
+	created = models.DateTimeField(auto_now_add = True)
+	updated = models.DateTimeField(auto_now = True)
+
+	class Meta:
+		db_table = 'comments'
+		ordering = ('created',)
+
+class ReplyComments(models.Model):
+	comment = models.ForeignKey(Comments, related_name = "replyComments", null = True, on_delete=models.CASCADE)
+	post = models.ForeignKey(Post, null = True, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, null = True, on_delete=models.CASCADE)
+	body = models.TextField()
+	created = models.DateTimeField(auto_now_add = True)
+	updated = models.DateTimeField(auto_now = True)
+
+	class Meta:
+		db_table = 'replyComments'
+		ordering = ('created',)
+
+class Notifications(models.Model):
+	NOTIFICATION_TYPE = ((1,'CreatePost'),(2,'Like'),(3,'Comment'),(4,'Follow'))
+	post = models.ForeignKey(Post, null = True, blank = True, on_delete=models.CASCADE, related_name = "noti_post")
+	sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "noti_from_user")
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "noti_to_user")
+	notification_type = models.IntegerField(choices = NOTIFICATION_TYPE)
+	text_preview = models.CharField(max_length = 90, blank = True)
+	date = models.DateTimeField(auto_now_add = True)
+	is_seen = models.BooleanField(default = False)
+
+	class Meta:
+		db_table = 'Notification'

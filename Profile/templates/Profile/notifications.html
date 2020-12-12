@@ -1,5 +1,73 @@
 {% extends 'Home/main.html' %}
 {% load static %}
 {% block content %}
-<H2>Notifications</H2>
+<div class="container mt-3">
+	<div class="d-flex justify-content-between">	
+		<p>{{unReadNotification}} is unread out of {{ notifications.count }} Notifications </p>
+		<a href="{% url 'profile_app:markAllNotificationRead' %}">Mark all as read</a>
+	</div>
+{% for notification in notifications %}
+	{% if notification.is_seen == 0 %}
+	<div class="row justify-content-md-center mt-3 bg-secondary">
+	{% else %}
+	<div class="row justify-content-md-center mt-3 bg-light">
+	{% endif %}
+
+	{% if notification.notification_type == 1 %}
+	    <div class="col col-md-1">
+	      <img src="{{notification.sender.profiledetails.profile_pic}}" height = '60' width="60" style="border-radius: 50%;">
+	    </div>
+	    <a href="{% url 'profile_app:viewPost' notification.post.id %}">
+	    <div class="col-md-auto"> 	    	
+	      	<p><strong>{{notification.sender.username}} </strong> has updated a post </p><br>
+	      	<p>{{ notification.post.caption }}</p>
+	      	<small>{{ notification.date }}</small>
+	    </div>
+	    </a>
+	{% elif notification.notification_type == 2 %}
+		<div class="col col-md-1">
+	      <img src="{{notification.sender.profiledetails.profile_pic}}" height = '60' width="60" style="border-radius: 50%;">
+	    </div>
+	    <a href="{% url 'profile_app:viewPost' notification.post.id %}">
+	    <div class="col-md-auto"> 	    	
+	      	<p><strong>{{notification.sender.username}} </strong> has liked your post </p><br>
+	      	<p>{{ notification.post.caption }}</p>
+	      	<small>{{ notification.date }}</small>
+	    </div>
+	    </a>
+	{% elif notification.notification_type == 3 %}
+		<div class="col col-md-1">
+	      <img src="{{notification.sender.profiledetails.profile_pic}}" height = '60' width="60" style="border-radius: 50%;">
+	    </div>
+	    <a href="{% url 'profile_app:viewPost' notification.post.id %}">
+	    <div class="col-md-auto"> 	    	
+	      	<p><strong>{{notification.sender.username}} </strong> has commented your post </p><br>
+	      	<p>{{ notification.post.caption }}</p>
+	      	<small>{{ notification.date }}</small>
+	    </div>
+	    </a>
+	{% elif notification.notification_type == 4 %}
+		<div class="col col-md-1">
+	      <img src="{{notification.sender.profiledetails.profile_pic}}" height = '60' width="60" style="border-radius: 50%;">
+	      <h2></h2>
+	    </div>
+	    <a href="{% url 'profile_app:profileTimeline' notification.sender %}">
+		    <div class="col-md-auto">
+		      <p><strong>{{notification.sender.username}} </strong> has followed to your profile <br>
+		      	<small>{{ notification.date }}</small>
+		      </p>
+		    </div>
+	   	</a>
+	{% endif %}
+	    {% if notification.post.post_image %}
+	    <div class="col col-md-1">
+      		<img src="{{notification.post.post_image.first.image}}" height = '100' width="100">
+	    </div>
+	    {% endif %}		   
+	</div>
+{% endfor %}
+</div> 
 {% endblock %}
+
+  
+ 

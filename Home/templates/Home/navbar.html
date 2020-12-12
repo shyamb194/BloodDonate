@@ -22,7 +22,7 @@
     <div class="logo">BloodDonate</div>
     <div class="nav-items">
         <li><a href="{% url 'profile_app:profileTimeline' request.user %}">My Profile</a></li>
-        <li><a href="{% url 'profile_app:notifications' request.user %}">Notifications</a></li>
+        <li><a href="{% url 'profile_app:notifications' request.user %}">Notifications <span class="badge badge-pill badge-primary">{{unReadNotification}}</span></a></li>
         <li><a href="{% url 'profile_app:settings' request.user %}">Settings</a></li>
         <li><a href="#">Search</a></li>
         <li><a href="{% url 'UserAuthentication_app:logout' %}">Log Out</a></li>   

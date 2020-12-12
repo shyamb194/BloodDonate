@@ -4,15 +4,19 @@
 	</div>
 	<div>	
 		<h5 class="ml-2">Profile Picture</h5>	
-		{% for post in post %}
-			{% if post.post_type == 'profile_picture' %}			
-			<img src="{{ post.image }}"  width=100%>
-			{% endif %}
+		{% for post in my_profile_posts %}
+			{% if post.post_type == 'profile_picture' %}
+				{% for post_image in post.post_image %}
+	                <img class="card-img-bottom" src="{{ post_image.image }}">                  
+	             {% endfor %} 
+	        {% endif %} 
 		{% endfor %}
 		<h5 class="ml-2">Mobile Uploads</h5>	
-		{% for post in post %}
+		{% for post in my_profile_posts %}
 			{% if post.post_type == 'post' %}			
-			<img src="{{ post.image }}" width = 100%>
+				{% for post_image in post.post_image %}
+	                <img class="card-img-bottom" src="{{ post_image.image }}">                  
+	            {% endfor %} 
 			{% endif %}
 		{% endfor %}
 	</div>
